@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  webapi:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+
+  k6:
+    image: grafana/k6
+    volumes:
+      - ./k6:/scripts
+    command: run /scripts/loadtest.js
+    depends_on:
+      - webapi
